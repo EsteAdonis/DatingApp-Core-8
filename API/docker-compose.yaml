@@ -1,0 +1,15 @@
+services:
+  api:
+    image: datingapp:latest
+    container_name: datingapp
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIROMENT=Development
+    volumes:
+      - ./API/dating.db:/app/dating.app
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+  
