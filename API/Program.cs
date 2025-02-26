@@ -1,5 +1,6 @@
 using API.Data;
 using API.Extensions;
+using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,8 @@ builder.Services.AddCors();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
+
+
 // if (app.Environment.IsDevelopment())
 // {
 //     app.UseSwagger();
@@ -28,11 +31,12 @@ var app = builder.Build();
 
 // app.UseHttpsRedirection();
 
-using (var scope = app.Services.CreateScope())
-{
-  var context = scope.ServiceProvider.GetRequiredService<DataContext>();
-  context.Database.Migrate();
-}
+// using (var scope = app.Services.CreateScope())
+// {
+//   var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+//   context.Database.Migrate();
+// }
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseCors(
   x => x.AllowAnyHeader()
