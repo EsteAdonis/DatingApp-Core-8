@@ -20,7 +20,7 @@ public class TokenService(IConfiguration config) : ITokenService
       
       var claims = new  List<Claim>
       {
-        new(ClaimTypes.NameIdentifier, user.UserName)
+        new(ClaimTypes.NameIdentifier, user.UserName!)
       };
 
       var tokenDescriptor = new SecurityTokenDescriptor

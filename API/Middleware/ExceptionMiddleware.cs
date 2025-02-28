@@ -4,7 +4,7 @@ using API.Errors;
 
 namespace API.Middleware;
 
-public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IHostEnvironment env)
+public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
 {
   // private readonly RequestDelegate _next = next;
   // private readonly IHostEnvironment _env = env;
