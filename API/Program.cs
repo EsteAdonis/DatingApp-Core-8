@@ -18,7 +18,6 @@ builder.Services.AddIdentityServices(builder.Configuration);
 
 builder.Services.AddCors();
 
-
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 
@@ -36,6 +35,8 @@ var app = builder.Build();
 //   var context = scope.ServiceProvider.GetRequiredService<DataContext>();
 //   context.Database.Migrate();
 // }
+
+
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseCors(
@@ -54,7 +55,7 @@ try{
   var context = services.GetRequiredService<DataContext>();
   await context.Database.MigrateAsync();
   await Seed.SeedUsers(context);
-}catch(Exception ex)
+} catch(Exception ex)
 {
   var logger = services.GetRequiredService<ILogger<Program>>();
   logger.LogError(ex, "An error ocurred during migration");

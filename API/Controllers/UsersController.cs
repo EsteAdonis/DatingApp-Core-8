@@ -14,7 +14,7 @@ public class UsersController(IUserRepository userRepository) : BaseApiController
   [HttpGet]
 	public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
 	{
-		var users = await userRepository.GetUserAsync();
+		var users = await userRepository.GetMemberAsync();
 		return Ok(users);
 	}
 	
@@ -23,7 +23,6 @@ public class UsersController(IUserRepository userRepository) : BaseApiController
 	{
 		var user = await userRepository.GetMemberAsync(username);
 		if (user == null) return NotFound();
-		
 		return user;
 	}
 }
