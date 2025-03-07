@@ -3,10 +3,17 @@ import { MembersService } from '../../_services/members.service';
 import { ActivatedRoute } from '@angular/router';
 import { Member } from '../../_models/member';
 
+// npm config set legacy-peer-deps true
+// > mpm i ng-gallery
+import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
+
+// Standalone component usage
+import { TabsModule } from 'ngx-bootstrap/tabs';
+
 @Component({
   selector: 'app-member-detail',
   standalone: true,
-  imports: [],
+  imports: [TabsModule, GalleryModule],
   templateUrl: './member-detail.component.html',
   styleUrl: './member-detail.component.css'
 })
@@ -14,6 +21,7 @@ export class MemberDetailComponent implements OnInit {
   private memberService = inject(MembersService);
   private route = inject(ActivatedRoute);
   member?: Member;
+  images: GalleryItem[] = [];
 
   ngOnInit(): void {
     this.loadMember();
@@ -24,7 +32,12 @@ export class MemberDetailComponent implements OnInit {
     if (!username) return;
     console.log('MemberDetailComponent: ', username);
     this.memberService.getMember(username).subscribe({
-      next: member => this.member = member
+      next: member => { 
+        this.member = member
+        member.photos.map(p => {
+          this.images.push(new ImageItem({src: p.url, thumb: p.url}))
+        })
+      }
     })
   }
 }
