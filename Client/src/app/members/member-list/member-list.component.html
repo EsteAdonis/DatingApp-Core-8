@@ -2,7 +2,8 @@
 
     @for(member of members; track member.id) {
       <div class="col-2">
-        <app-memeber-card [member]="member"></app-memeber-card>
+        <p>{{ member.username }}</p>
+        <app-member-card [member]="member"></app-member-card>
       </div>
     }
 
