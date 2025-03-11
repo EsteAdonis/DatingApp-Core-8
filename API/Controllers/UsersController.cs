@@ -67,5 +67,47 @@ public class UsersController(IUserRepository userRepository,
 
 		return BadRequest("Problem adding photo");
 	}
+
+	[HttpPut("set-main-photo/{photoId:int}")]
+	public async Task<ActionResult> SetMainPhoto(int photoId)
+	{
+		var user = await userRepository.GetUserByUsernameAsyunc(User.GetUsername());
+
+		if (user == null) return BadRequest("Could not find user");
+
+		var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
+		if(photo == null || photo.IsMain) return BadRequest("Candnot use this as main photo");
+
+		var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
+		if (currentMain != null) currentMain.IsMain = false;
+		photo.IsMain = true;
+
+		if (await userRepository.SaveAllAsync()) return NoContent();
+
+		return BadRequest("Problem setting photo");
+	}
+
+	[HttpDelete("delete-photo/{photoId:int}")]
+	public async Task<ActionResult> DeletePhoto(int photoId)
+	{
+		var user = await userRepository.GetUserByUsernameAsyunc(User.GetUsername());
+		if (user == null) return BadRequest("User not found");
+
+		var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
+		if (photo?.PublicId != null) 
+		{
+			var result = await photoService.DeletePhotoAsync(photo.PublicId);
+			if (result.Error != null ) return BadRequest(result.Error.Message);
+		}
+ 
+    user.Photos.Remove(photo!);
+
+		if (await userRepository.SaveAllAsync()) return Ok();
+
+		return BadRequest("Problem deleting photo");
+	}
+
 }
 

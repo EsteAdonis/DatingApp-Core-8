@@ -38,6 +38,7 @@ public class AccountController(DataContext context, ITokenService tokenService):
   {
     var user = await context
                     .Users
+                    .Include(p => p.Photos)
                     .FirstOrDefaultAsync(u => u.UserName.ToLower() == logingDto.Username.ToLower());
     
     if(user == null) return Unauthorized("Invalid username or password");
@@ -52,7 +53,8 @@ public class AccountController(DataContext context, ITokenService tokenService):
 
     return new UserDto {
       Username = user.UserName,
-      Token = tokenService.CreateToken(user)
+      Token = tokenService.CreateToken(user),
+      PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
     };
   }
 
