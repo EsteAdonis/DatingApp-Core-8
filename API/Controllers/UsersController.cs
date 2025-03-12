@@ -6,6 +6,7 @@ using System.Security.Claims;
 using AutoMapper;
 using API.Extensions;
 using API.Entities;
+using API.Helpers;
 
 namespace API.Controllers;
 
@@ -15,9 +16,10 @@ public class UsersController(IUserRepository userRepository,
 														 IPhotoService photoService) : BaseApiController
 {
   [HttpGet]
-	public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+	public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
 	{
-		var users = await userRepository.GetMemberAsync();
+		var users = await userRepository.GetMemberAsync(userParams);
+		Response.AddPaginationHeader(users);
 		return Ok(users);
 	}
 	
