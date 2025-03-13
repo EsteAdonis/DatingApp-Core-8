@@ -1,6 +1,7 @@
 export interface User {
-  // id: number; // Example: 1
-  username?: string; // Example: 'johndoe'
-  token: string; // Example
+  username?: string; 
+  knownAs: string,
+  gender: string,
+  token: string; 
   photoUrl?: string;
 }
