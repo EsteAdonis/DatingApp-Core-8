@@ -2,6 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MembersService } from '../../_services/members.service';
 import { ActivatedRoute } from '@angular/router';
 import { Member } from '../../_models/member';
+import { TimeagoModule } from 'ngx-timeago';
+
 
 // npm config set legacy-peer-deps true
 // > mpm i ng-gallery
@@ -9,11 +11,12 @@ import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 
 // Standalone component usage
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-member-detail',
   standalone: true,
-  imports: [TabsModule, GalleryModule],
+  imports: [TabsModule, GalleryModule, TimeagoModule, DatePipe],
   templateUrl: './member-detail.component.html',
   styleUrl: './member-detail.component.css'
 })
