@@ -12,4 +12,6 @@ public class UserParams
     set =>_pageSize = (value > MaxpageSize) ? MaxpageSize : value;
   }
    
+  public string? Gender { get; set; }
+  public string? CurrentUsername { get; set; }
 }
