@@ -20,6 +20,6 @@ public class AppUser
 	public List<Photo> Photos {get; set;} = [];
 
 	// Creating relation many-to-may
-	public List<UserLIke> LikedByUsers { get; set; } = [];
-	public List<UserLIke> LikeUsers {get; set;} = [];
+	public List<UserLike> LikedByUsers { get; set; } = [];
+	public List<UserLike> LikeUsers {get; set;} = [];
 }
