@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Extensions;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -16,16 +12,14 @@ public class LogUserActivity : IAsyncActionFilter
 
 		 if (context.HttpContext.User.Identity?.IsAuthenticated != true) return;
 
-		 var username = resultContext.HttpContext.User.GetUsername();
+		 var userId = resultContext.HttpContext.User.GetUserId();
 
 		 var repo = resultContext.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
 
-		 var user = await repo.GetUserByUsernameAsyunc(username);
+		 var user = await repo.GetUserByIdAsync(userId);
 
 		 if (user == null) return;
-
 		 user.LastActive = DateTime.UtcNow;
 		 await repo.SaveAllAsync();
-
     }
 }
